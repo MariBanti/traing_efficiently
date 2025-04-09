@@ -1,0 +1,17 @@
+<div class="todo-item" (click)="onClick()">
+    <div class="todo-item__header">
+      <h3>{{ todo.name }}</h3>
+      <span class="todo-item__status-icon">
+        {{ todo.isDescriptionShow ? '-' : '+' }}
+      </span>
+    </div>
+    
+    <div class="description" *ngIf="todo.isDescriptionShow && todo.description">
+      <p>{{ todo.description }}</p>
+    </div>
+    
+    <div class="actions" (click)="$event.stopPropagation()">
+      <button (click)="onEdit()">Изменить</button>
+      <button (click)="onDelete()">Удалить</button>
+    </div>
+  </div>

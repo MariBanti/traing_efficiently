@@ -1,0 +1,22 @@
+<div class="todo">
+    <h1 class="todo__title">TO-DO List</h1>
+
+    <button (click)="openModal()">Добавить задачу</button>
+
+    <div class="todo__list">
+        <app-todo-item
+        *ngFor="let todo of todos"
+        [todo] = "todo"
+        (toggleExpand) = "showDescription(todo.id)"
+        (edit) = "openModal(todo)"
+        (delete) = "deleteTodo(todo.id)"
+        ></app-todo-item>
+    </div>
+
+    <app-modal
+    [isOpen] = "isModalOpen"
+    [todo] = "currentTodo"
+    (save) = "handleModalSave($event)"
+    (close) = "closeModal()"
+    ></app-modal>
+</div>
