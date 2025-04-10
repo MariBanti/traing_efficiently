@@ -3,78 +3,58 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ModalComponent } from '../modal/modal.component';
-
-export interface Todo {
-  id: number;
-  name: string;
-  description: string;
-  isCompleted: boolean;
-  isDescriptionShow: boolean;
-}
+import { Todo } from '../model/todo';
+import { TodoList } from '../todo-list.service';
 
 @Component({
   selector: 'app-todo-list',
   imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent],
+  providers: [TodoList],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.scss'
+  styleUrl: './todo-list.component.scss',
+  standalone: true
 })
 export class TodoListComponent {
-  todos: Todo[] = [];
-  currentTodo: Todo | null = null;
-  isModalOpen = false;
-  editingTodo: Todo | null = null;
+  constructor(public todos : TodoList){}
+  public currentTodo: Todo | null = null;
+  public isModalOpen = false;
 
-  addTodo(todo: Omit<Todo, 'id' | 'isCompleted' | 'isDescriptionShow'>){
-      this.todos.push({
-        id: Date.now(),
-        ...todo,
-        isCompleted: false,
-        isDescriptionShow: false
-      })
+  public deleteTodo(id: number):void{
+    this.todos.deleteItem(id)
   }
 
-  updateTodo(updatedTodo : Todo){
-      const index = this.todos.findIndex(t => t.id === updatedTodo.id);
-      if(index !== -1){
-        this.todos[index] = updatedTodo
-      }
-  }
-
-  deleteTodo(id: number){
-    this.todos = this.todos.filter(todo => todo.id !== id)
-  }
-
-  showDescription(id : number){
-    const todo = this.todos.find(t => t.id === id)
+  public showDescription(id : number):void{
+    const todo = this.todos.items.find(t => t.id === id); 
+    
     if(todo){
       todo.isDescriptionShow = !todo.isDescriptionShow
     }
   }
 
-  toggleComplete(id: number){
-    const todo = this.todos.find(item => item.id === id)
+  public toggleComplete(id: number):void{
+    const todo = this.todos.items.find(item => item.id === id)
     if (todo){
       todo.isCompleted = !todo.isCompleted
     }
   }
 
-  openModal(todo?: Todo){
+  public openModal(todo?: Todo):void{
     this.currentTodo = todo ? {...todo} : null;
     this.isModalOpen = true;
   }
 
-  closeModal(){
+  public closeModal():void{
     this.isModalOpen = false
   }
 
-  handleModalSave(data : {name: string; description: string}){
+  public handleModalSave(data : {name: string; description: string}):void{
     if(this.currentTodo){
-      this.updateTodo({
+      this.todos.updateItem({
         ...this.currentTodo,
         ...data
       })
     } else {
-      this.addTodo(data)
+      this.todos.addItem(data)
     }
     this.closeModal
   }

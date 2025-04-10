@@ -5,9 +5,10 @@
 
     <div class="todo__list">
         <app-todo-item
-        *ngFor="let todo of todos"
+        *ngFor="let todo of todos.items"
         [todo] = "todo"
-        (toggleExpand) = "showDescription(todo.id)"
+        (showDescription) = "showDescription(todo.id)"
+        (toggleComplete) = "toggleComplete(todo.id)"
         (edit) = "openModal(todo)"
         (delete) = "deleteTodo(todo.id)"
         ></app-todo-item>

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Todo } from '../todo-list/todo-list.component';
+import { Todo } from '../model/todo';
 
 @Component({
   selector: 'app-todo-item',
@@ -9,19 +9,20 @@ import { Todo } from '../todo-list/todo-list.component';
 })
 export class TodoItemComponent {
   @Input() todo! : Todo;
+  @Output() toggleComplete = new EventEmitter<void>()
   @Output() showDescription = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
 
-  onClick(){
+  public onClick():void{
     this.showDescription.emit();
   }
 
-  onEdit(){
+  public onEdit():void{
     this.edit.emit();
   }
 
-  onDelete(){
+  public onDelete():void{
     this.delete.emit();
   }
 }

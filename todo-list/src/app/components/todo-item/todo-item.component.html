@@ -6,8 +6,8 @@
       </span>
     </div>
     
-    <div class="description" *ngIf="todo.isDescriptionShow && todo.description">
-      <p>{{ todo.description }}</p>
+    <div class="description">
+      <p>{{ todo.isDescriptionShow ? todo.description : '' }}</p>
     </div>
     
     <div class="actions" (click)="$event.stopPropagation()">

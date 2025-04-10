@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Todo } from '../todo-list/todo-list.component';
+import { Todo } from '../model/todo';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -15,10 +15,10 @@ export class ModalComponent {
   @Output() save = new EventEmitter<{name: string, description: string}>();
   @Output() close = new EventEmitter<void>();
 
-  name = "";
-  description = "";
+  public name = "";
+  public description = "";
 
-  ngOnChanges(){
+  public ngOnChanges():void{
     if(this.todo){
       this.name = this.todo.name;
       this.description = this.todo.description || '';
@@ -28,7 +28,7 @@ export class ModalComponent {
     }
   }
 
-  onSave(){
+  public onSave():void{
     if(this.name.trim()){
       this.save.emit({
         name: this.name.trim(),
@@ -37,7 +37,7 @@ export class ModalComponent {
     }
   }
 
-  onClose(){
+  public onClose():void{
     this.close.emit()
   }
 }
