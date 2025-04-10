@@ -5,7 +5,7 @@
 
     <div class="todo__list">
         <app-todo-item
-        *ngFor="let todo of todos.items"
+        *ngFor="let todo of todos.items; trackBy: trackById"
         [todo] = "todo"
         (showDescription) = "showDescription(todo.id)"
         (toggleComplete) = "toggleComplete(todo.id)"

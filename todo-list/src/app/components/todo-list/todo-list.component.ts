@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
@@ -12,7 +12,8 @@ import { TodoList } from '../todo-list.service';
   providers: [TodoList],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent {
   constructor(public todos : TodoList){}
@@ -57,5 +58,9 @@ export class TodoListComponent {
       this.todos.addItem(data)
     }
     this.closeModal
+  }
+
+  public trackById(todo: any):number{
+    return todo.id
   }
 }

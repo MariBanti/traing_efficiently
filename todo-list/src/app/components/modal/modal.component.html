@@ -1,22 +1,36 @@
-
 <div class="modal" *ngIf="isOpen" (click)="onClose()">
-    <div class="modal__content" (click)="$event.stopPropagation()">
-      <button class="close__btn" (click)="onClose()">&times;</button>
-      
-      <h2>{{ todo ? 'Изменить задачу' : 'Добавить новую задачу' }}</h2>
-      
+  <div class="modal__content" (click)="$event.stopPropagation()">
+    <button class="close__btn" (click)="onClose()">&times;</button>
+    
+    <h2>{{ todo ? 'Изменить задачу' : 'Добавить новую задачу' }}</h2>
+    
+    <form [formGroup]="todoForm">
       <div class="form__group">
         <label>Название</label>
-        <input type="text" [(ngModel)]="name" placeholder="Enter task title">
+        <input 
+          type="text" 
+          formControlName="name" 
+          placeholder="Введите название задачи"
+          [class.invalid]="todoForm.get('name')?.invalid && todoForm.get('name')?.touched">
+        
       </div>
       
       <div class="form__group">
         <label>Описание</label>
-        <textarea [(ngModel)]="description" placeholder="Enter task description"></textarea>
+        <textarea 
+          formControlName="description" 
+          placeholder="Введите описание">
+        </textarea>
       </div>
       
       <div class="modal__actions">
-        <button class="save__btn" (click)="onSave()">Сохранить</button>
+        <button 
+          class="save__btn" 
+          (click)="onSave()" 
+          [disabled]="todoForm.invalid">
+          Сохранить
+        </button>
       </div>
-    </div>
+    </form>
   </div>
+</div>
