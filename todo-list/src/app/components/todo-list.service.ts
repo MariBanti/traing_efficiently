@@ -1,25 +1,40 @@
-import { Todo } from "./model/todo";
+import { Task } from "./model/todo";
 
-export class TodoList{
-    public items: Todo[] = [];
+export class todoListService{
+    public items: Task[] = [];
 
-    public addItem(todo: Omit<Todo, 'id' | 'isCompleted' | 'isDescriptionShow'>):void{
+    public addItem(task: Omit<Task, 'id' | 'isCompleted' | 'isDescriptionShow'>):void{
         this.items.push({
           id: Date.now(),
-          ...todo,
+          ...task,
           isCompleted: false,
           isDescriptionShow: false
         })
     }
   
-    public updateItem(updatedTodo : Todo):void{
-        const index = this.items.findIndex(t => t.id === updatedTodo.id);
+    public updateItem(updatedTask : Task):void{
+        const index = this.items.findIndex(t => t.id === updatedTask.id);
         if(index !== -1){
-          this.items[index] = updatedTodo
+          this.items[index] = updatedTask
         }
     }
   
     public deleteItem(id: number):void{
-      this.items = this.items.filter(todo => todo.id !== id)
+      this.items = this.items.filter(task => task.id !== id)
+    }
+
+    public showDescription(id : number):void{
+      const task = this.items.find(t => t.id === id); 
+      
+      if(task){
+        task.isDescriptionShow = !task.isDescriptionShow
+      }
+    }
+
+    public toggleComplete(id: number):void{
+      const task = this.items.find(item => item.id === id)
+      if (task){
+        task.isCompleted = !task.isCompleted
+      }
     }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Todo } from '../model/todo';
+import { Task } from '../model/todo';
 
 @Component({
   selector: 'app-todo-item',
@@ -10,7 +10,7 @@ import { Todo } from '../model/todo';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemComponent {
-  @Input() todo! : Todo;
+  @Input() task! : Task;
   @Output() toggleComplete = new EventEmitter<void>()
   @Output() showDescription = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();

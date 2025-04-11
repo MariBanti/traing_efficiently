@@ -3,44 +3,37 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ModalComponent } from '../modal/modal.component';
-import { Todo } from '../model/todo';
-import { TodoList } from '../todo-list.service';
+import { Task } from '../model/todo';
+import { todoListService } from '../todo-list.service';
 
 @Component({
   selector: 'app-todo-list',
   imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent],
-  providers: [TodoList],
+  providers: [todoListService],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent {
-  constructor(public todos : TodoList){}
-  public currentTodo: Todo | null = null;
+  constructor(public tasks : todoListService){}
+  public currentTask: Task | null = null;
   public isModalOpen = false;
 
   public deleteTodo(id: number):void{
-    this.todos.deleteItem(id)
+    this.tasks.deleteItem(id)
   }
 
   public showDescription(id : number):void{
-    const todo = this.todos.items.find(t => t.id === id); 
-    
-    if(todo){
-      todo.isDescriptionShow = !todo.isDescriptionShow
-    }
+    this.tasks.showDescription(id)
   }
 
   public toggleComplete(id: number):void{
-    const todo = this.todos.items.find(item => item.id === id)
-    if (todo){
-      todo.isCompleted = !todo.isCompleted
-    }
+    this.tasks.toggleComplete(id)
   }
 
-  public openModal(todo?: Todo):void{
-    this.currentTodo = todo ? {...todo} : null;
+  public openModal(task?: Task):void{
+    this.currentTask = task ? {...task} : null;
     this.isModalOpen = true;
   }
 
@@ -49,18 +42,18 @@ export class TodoListComponent {
   }
 
   public handleModalSave(data : {name: string; description: string}):void{
-    if(this.currentTodo){
-      this.todos.updateItem({
-        ...this.currentTodo,
+    if(this.currentTask){
+      this.tasks.updateItem({
+        ...this.currentTask,
         ...data
       })
     } else {
-      this.todos.addItem(data)
+      this.tasks.addItem(data)
     }
     this.closeModal
   }
 
-  public trackById(todo: any):number{
-    return todo.id
+  public trackById(task: any):number{
+    return task.id
   }
 }

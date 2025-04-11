@@ -2,16 +2,16 @@
   <div class="modal__content" (click)="$event.stopPropagation()">
     <button class="close__btn" (click)="onClose()">&times;</button>
     
-    <h2>{{ todo ? 'Изменить задачу' : 'Добавить новую задачу' }}</h2>
+    <h2>{{ task ? 'Изменить задачу' : 'Добавить новую задачу' }}</h2>
     
-    <form [formGroup]="todoForm">
+    <form [formGroup]="taskForm">
       <div class="form__group">
         <label>Название</label>
         <input 
           type="text" 
           formControlName="name" 
           placeholder="Введите название задачи"
-          [class.invalid]="todoForm.get('name')?.invalid && todoForm.get('name')?.touched">
+          [class.invalid]="taskForm.get('name')?.invalid && taskForm.get('name')?.touched">
         
       </div>
       
@@ -27,7 +27,7 @@
         <button 
           class="save__btn" 
           (click)="onSave()" 
-          [disabled]="todoForm.invalid">
+          [disabled]="taskForm.invalid">
           Сохранить
         </button>
       </div>
