@@ -1,33 +1,92 @@
 <div class="modal" *ngIf="isOpen" (click)="onClose()">
   <div class="modal__content" (click)="$event.stopPropagation()">
     <button class="close__btn" (click)="onClose()">&times;</button>
-    
-    <h2>{{ task ? 'Изменить задачу' : 'Добавить новую задачу' }}</h2>
-    
+
+    <h2>{{ task ? "Изменить задачу" : "Добавить новую задачу" }}</h2>
+
     <form [formGroup]="taskForm">
       <div class="form__group">
         <label>Название</label>
-        <input 
-          type="text" 
-          formControlName="name" 
+        <input
+          type="text"
+          formControlName="name"
           placeholder="Введите название задачи"
-          [class.invalid]="taskForm.get('name')?.invalid && taskForm.get('name')?.touched">
-        
+          [class.invalid]="
+            taskForm.get('name')?.invalid && taskForm.get('name')?.touched
+          "
+        />
+        <div
+          *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
+          class="error-message"
+        >
+          <small *ngIf="taskForm.get('name')?.errors?.['required']"
+            >Это поле обязательно для заполнения.</small
+          >
+          <small *ngIf="taskForm.get('name')?.errors?.['minlength']"
+            >Имя должно содержать хотя бы 3 символа.</small
+          >
+          <small *ngIf="taskForm.get('name')?.errors?.['maxWords']"
+            >Имя должно содержать менее 4 слов.</small
+          >
+        </div>
       </div>
-      
+
+      <div class="form__group">
+        <label>Дата выполнения: </label>
+        <input
+          type="date"
+          formControlName="deadlineDate"
+          [class.invalid]="
+            taskForm.get('deadlineDate')?.invalid &&
+            taskForm.get('deadlineDate')?.touched
+          "
+          required
+        />
+        <div
+          *ngIf="
+            taskForm.get('deadlineDate')?.invalid &&
+            taskForm.get('deadlineDate')?.touched
+          "
+          class="error-message"
+        >
+          <small *ngIf="taskForm.get('deadlineDate')?.errors?.['futureDate']"
+            >Дата не может быть в прошлом.</small
+          >
+          <small *ngIf="taskForm.get('deadlineDate')?.errors?.['required']"
+            >Выберите дату выполнения</small
+          >
+        </div>
+      </div>
+
       <div class="form__group">
         <label>Описание</label>
-        <textarea 
-          formControlName="description" 
-          placeholder="Введите описание">
-        </textarea>
+        <textarea
+          formControlName="description"
+          placeholder="Введите описание"
+          [class.invalid]="
+            taskForm.get('description')?.invalid &&
+            taskForm.get('description')?.touched
+          "
+        ></textarea>
+        <div
+          *ngIf="
+            taskForm.get('description')?.invalid &&
+            taskForm.get('description')?.touched
+          "
+          class="error-message"
+        >
+          <small *ngIf="taskForm.get('description')?.errors?.['required']"
+            >Описание не может содержать более 256 символов.</small
+          >
+        </div>
       </div>
-      
+
       <div class="modal__actions">
-        <button 
-          class="save__btn" 
-          (click)="onSave()" 
-          [disabled]="taskForm.invalid">
+        <button
+          class="save__btn"
+          (click)="onSave()"
+          [disabled]="taskForm.invalid"
+        >
           Сохранить
         </button>
       </div>

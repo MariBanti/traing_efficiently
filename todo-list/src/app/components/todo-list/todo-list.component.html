@@ -1,23 +1,27 @@
 <div class="todo">
-    <h1 class="todo__title">TO-DO List</h1>
+  <h1 class="todo__title">TO-DO List</h1>
 
-    <button (click)="openModal()">Добавить задачу</button>
+  <button (click)="openModal()">Добавить задачу</button>
 
-    <div class="todo__list">
-        <app-todo-item
-        *ngFor="let task of tasks.items; trackBy: trackById"
-        [task] = "task"
-        (showDescription) = "showDescription(task.id)"
-        (toggleComplete) = "toggleComplete(task.id)"
-        (edit) = "openModal(task)"
-        (delete) = "deleteTodo(task.id)"
-        ></app-todo-item>
-    </div>
+  <button (click)="filterByDate()" *ngIf="tasks.items.length > 1">
+    Отфильтровать по дате (от ближайшей)
+  </button>
 
-    <app-modal
-    [isOpen] = "isModalOpen"
-    [task] = "currentTask"
-    (save) = "handleModalSave($event)"
-    (close) = "closeModal()"
-    ></app-modal>
+  <div class="todo__list">
+    <app-todo-item
+      *ngFor="let task of tasks.items; trackBy: trackById"
+      [task]="task"
+      (showDescription)="showDescription(task.id)"
+      (toggleComplete)="toggleComplete(task.id)"
+      (edit)="openModal(task)"
+      (delete)="deleteTodo(task.id)"
+    ></app-todo-item>
+  </div>
+
+  <app-modal
+    [isOpen]="isModalOpen"
+    [task]="currentTask"
+    (save)="handleModalSave($event)"
+    (close)="closeModal()"
+  ></app-modal>
 </div>

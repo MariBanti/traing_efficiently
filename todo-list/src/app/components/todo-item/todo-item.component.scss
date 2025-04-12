@@ -1,4 +1,9 @@
-.todo-item{
-    border: 1px solid #000;
-    margin: 15px;
+.todo-item {
+  border: 1px solid #000;
+  margin: 15px;
+
+  .done {
+    text-decoration: line-through;
+    color: gray;
+  }
 }

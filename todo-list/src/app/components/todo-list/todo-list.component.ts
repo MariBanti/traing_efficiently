@@ -13,47 +13,55 @@ import { todoListService } from '../todo-list.service';
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoListComponent {
-  constructor(public tasks : todoListService){}
+  constructor(public tasks: todoListService) {}
   public currentTask: Task | null = null;
   public isModalOpen = false;
 
-  public deleteTodo(id: number):void{
-    this.tasks.deleteItem(id)
+  public deleteTodo(id: string): void {
+    this.tasks.deleteItem(id);
   }
 
-  public showDescription(id : number):void{
-    this.tasks.showDescription(id)
+  public showDescription(id: string): void {
+    this.tasks.showDescription(id);
   }
 
-  public toggleComplete(id: number):void{
-    this.tasks.toggleComplete(id)
+  filterByDate(): void {
+    this.tasks.items = this.tasks.filterByDate();
   }
 
-  public openModal(task?: Task):void{
-    this.currentTask = task ? {...task} : null;
+  public toggleComplete(id: string): void {
+    this.tasks.toggleComplete(id);
+  }
+
+  public openModal(task?: Task): void {
+    this.currentTask = task ? { ...task } : null;
     this.isModalOpen = true;
   }
 
-  public closeModal():void{
-    this.isModalOpen = false
+  public closeModal(): void {
+    this.isModalOpen = false;
   }
 
-  public handleModalSave(data : {name: string; description: string}):void{
-    if(this.currentTask){
+  public handleModalSave(data: {
+    name: string;
+    description: string;
+    deadlineDate: Date;
+  }): void {
+    if (this.currentTask) {
       this.tasks.updateItem({
         ...this.currentTask,
-        ...data
-      })
+        ...data,
+      });
     } else {
-      this.tasks.addItem(data)
+      this.tasks.addItem(data);
     }
-    this.closeModal
+    this.closeModal();
   }
 
-  public trackById(task: any):number{
-    return task.id
+  public trackById(task: any): number {
+    return task.id;
   }
 }

@@ -1,30 +1,41 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Task } from '../model/todo';
 
 @Component({
   selector: 'app-todo-item',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoItemComponent {
-  @Input() task! : Task;
-  @Output() toggleComplete = new EventEmitter<void>()
+  @Input() task!: Task;
+  @Output() toggleComplete = new EventEmitter<void>();
   @Output() showDescription = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
 
-  public onClick():void{
+  public onClick(): void {
     this.showDescription.emit();
   }
 
-  public onEdit():void{
+  public onEdit(): void {
     this.edit.emit();
   }
 
-  public onDelete():void{
+  public onDelete(): void {
     this.delete.emit();
+  }
+
+  public onToggleComplete(): void {
+    this.toggleComplete.emit();
   }
 }

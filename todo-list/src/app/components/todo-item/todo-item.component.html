@@ -1,17 +1,27 @@
 <div class="todo-item" (click)="onClick()">
-    <div class="todo-item__header">
-      <h3>{{ task.name }}</h3>
-      <span class="todo-item__status-icon">
-        {{ task.isDescriptionShow ? '-' : '+' }}
-      </span>
-    </div>
-    
-    <div class="description">
-      <p>{{ task.isDescriptionShow ? task.description : '' }}</p>
-    </div>
-    
-    <div class="actions" (click)="$event.stopPropagation()">
-      <button (click)="onEdit()">Изменить</button>
-      <button (click)="onDelete()">Удалить</button>
-    </div>
+  <input
+    type="checkbox"
+    [checked]="task.isCompleted"
+    (change)="onToggleComplete()"
+    (click)="$event.stopPropagation()"
+  />
+  <div class="todo-item__header">
+    <h3 [class.done]="task.isCompleted">{{ task.name }}</h3>
   </div>
+
+  <div class="todo-item__deadlineDate">
+    <p>{{ task.deadlineDate | date : "yyyy-MM-dd" }}</p>
+  </div>
+
+  <div class="description">
+    <span class="todo-item__status-icon">
+      {{ task.isDescriptionShow ? "-" : "+" }}
+    </span>
+    <p>{{ task.isDescriptionShow ? task.description : "" }}</p>
+  </div>
+
+  <div class="actions" (click)="$event.stopPropagation()">
+    <button (click)="onEdit()">Изменить</button>
+    <button (click)="onDelete()">Удалить</button>
+  </div>
+</div>
