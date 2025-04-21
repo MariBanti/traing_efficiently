@@ -24,4 +24,26 @@
     (save)="handleModalSave($event)"
     (close)="closeModal()"
   ></app-modal>
+
+  <div class="todo__search">
+    <input 
+      type="text"
+      [(ngModel)]="searchText"
+      placeholder="Поиск задачи по имени"
+    >
+    
+    <div *ngIf="searchText">
+      <div *ngFor="let task of tasks.items | search : searchText">
+        ============================== <br>
+        Задача: {{ task.name}} <br>
+        Когда: {{task.deadlineDate | date : "yyyy-MM-dd" }} <br>
+        <span *ngIf="task.description">Описание: {{ task.description }}<br></span>
+        ==============================
+      </div>
+      
+      <div *ngIf="(tasks.items | search : searchText).length === 0">
+        Задачи не найдены
+      </div>
+    </div>
+  </div>
 </div>

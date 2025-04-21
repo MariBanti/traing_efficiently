@@ -19,14 +19,14 @@
           *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
           class="error-message"
         >
-          <small *ngIf="taskForm.get('name')?.errors?.['required']"
-            >Это поле обязательно для заполнения.</small
+          <small *ngIf="hasAnyErrors('name', 'required')"
+            >{{getErrorText('name', 'required')}}</small
           >
-          <small *ngIf="taskForm.get('name')?.errors?.['minlength']"
-            >Имя должно содержать хотя бы 3 символа.</small
+          <small *ngIf="hasAnyErrors('name', 'minLength')"
+            >{{getErrorText('name', 'minLength')}}</small
           >
-          <small *ngIf="taskForm.get('name')?.errors?.['maxWords']"
-            >Имя должно содержать менее 4 слов.</small
+          <small *ngIf="hasAnyErrors('name', 'maxWords')"
+            >{{getErrorText('name', 'maxWords')}}</small
           >
         </div>
       </div>
@@ -49,11 +49,11 @@
           "
           class="error-message"
         >
-          <small *ngIf="taskForm.get('deadlineDate')?.errors?.['futureDate']"
-            >Дата не может быть в прошлом.</small
+          <small *ngIf="hasAnyErrors('deadlineDate', 'futureDate')"
+            >{{getErrorText('deadlineDate', 'futureDate')}}</small
           >
-          <small *ngIf="taskForm.get('deadlineDate')?.errors?.['required']"
-            >Выберите дату выполнения</small
+          <small *ngIf="hasAnyErrors('deadlineDate', 'required')"
+            >{{getErrorText('deadlineDate', 'required')}}</small
           >
         </div>
       </div>
@@ -75,9 +75,16 @@
           "
           class="error-message"
         >
-          <small *ngIf="taskForm.get('description')?.errors?.['required']"
-            >Описание не может содержать более 256 символов.</small
+          <small *ngIf="hasAnyErrors('description', 'required')"
+            >{{getErrorText('description', 'required')}}</small
           >
+        </div>
+
+        <div class="form__group">
+          <label>Приоритет</label>
+          <choose-priority 
+          formControlName="priority" 
+        ></choose-priority>
         </div>
       </div>
 

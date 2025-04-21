@@ -20,6 +20,10 @@
     <p>{{ task.isDescriptionShow ? task.description : "" }}</p>
   </div>
 
+  <div class="priority">
+    <p>Важность: {{ task.priority }}</p>
+  </div>
+
   <div class="actions" (click)="$event.stopPropagation()">
     <button (click)="onEdit()">Изменить</button>
     <button (click)="onDelete()">Удалить</button>

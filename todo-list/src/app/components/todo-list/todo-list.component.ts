@@ -5,10 +5,11 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ModalComponent } from '../modal/modal.component';
 import { Task } from '../model/todo';
 import { todoListService } from '../todo-list.service';
+import { TaskSearchPipe } from '../pipes/task-search.pipe';
 
 @Component({
   selector: 'app-todo-list',
-  imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent],
+  imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent, TaskSearchPipe],
   providers: [todoListService],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
@@ -19,6 +20,7 @@ export class TodoListComponent {
   constructor(public tasks: todoListService) {}
   public currentTask: Task | null = null;
   public isModalOpen = false;
+  public searchText: string = ''
 
   public deleteTodo(id: string): void {
     this.tasks.deleteItem(id);
@@ -49,6 +51,7 @@ export class TodoListComponent {
     name: string;
     description: string;
     deadlineDate: Date;
+    priority: number;
   }): void {
     if (this.currentTask) {
       this.tasks.updateItem({

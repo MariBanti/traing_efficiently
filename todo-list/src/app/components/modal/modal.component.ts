@@ -19,11 +19,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { dateNotInPastValidator } from '../validators/date-not-in-past.validator';
 import { maxWordsValidator } from '../validators/max-words.validator';
+import { ChoosePriorityComponent } from '../controls/priority.control/priority.control.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, ChoosePriorityComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,14 +32,28 @@ import { maxWordsValidator } from '../validators/max-words.validator';
 export class ModalComponent implements OnInit, OnChanges {
   @Input() isOpen = false;
   @Input() task: Task | null = null;
-  @Output() save = new EventEmitter<{
-    name: string;
-    description: string;
-    deadlineDate: Date;
-  }>();
+  @Output() save = new EventEmitter<
+    Omit<Task, 'id' | 'isCompleted' | 'isDescriptionShow'>>();
   @Output() close = new EventEmitter<void>();
 
   public taskForm!: FormGroup;
+
+  private errorMessages = {
+    name: {
+      required: 'Это поле обязательно для заполнения',
+      minLength: 'Имя должно содержать хотя бы 3 символа',
+      maxWords: 'Имя должно содержать менее 4 слов'
+    },
+    
+    description: {
+      required: "Описание не может содержать более 256 символов",
+    },
+
+    deadlineDate: {
+      futureDate: "Дата не может быть в прошлом",
+      required: "Выберите дату выполнения",
+    }
+  };
 
   constructor(private fb: FormBuilder) {}
 
@@ -60,11 +75,20 @@ export class ModalComponent implements OnInit, OnChanges {
       ],
       description: ['', [Validators.maxLength(256)]],
       deadlineDate: ['', [dateNotInPastValidator(), Validators.required]],
+      priority: [0],
     });
 
     if (this.task) {
       this.updateForm();
     }
+  }
+
+  public hasAnyErrors(field: string, errorKey:string): boolean{
+    return this.taskForm.get(field)?.errors?.[errorKey]
+  }
+
+  public getErrorText(field: string, errorKey:string): string | null {
+    return (this.errorMessages as any)[field]?.[errorKey] || null;
   }
 
   private updateForm(): void {
@@ -73,6 +97,7 @@ export class ModalComponent implements OnInit, OnChanges {
         name: this.task.name,
         description: this.task.description || '',
         deadlineDate: this.task.deadlineDate || '',
+        priority: this.task.priority || ''
       });
     } else {
       this.taskForm.reset();
@@ -87,6 +112,7 @@ export class ModalComponent implements OnInit, OnChanges {
         deadlineDate: this.taskForm.value?.deadlineDate
           ? this.taskForm.value.deadlineDate
           : new Date(),
+        priority: this.taskForm.value?.priority || 0
       });
     }
   }
