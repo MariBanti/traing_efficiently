@@ -19,15 +19,15 @@ export class ChoosePriorityComponent implements ControlValueAccessor {
 
   @Input() priority: number = 0;
 
-  onChange = (priority: number) => {};
+  public onChange = (priority: number):void => {};
 
-  onTouched = () => {};
+  public onTouched = ():void => {};
 
-  touched = false;
+  private touched:boolean = false;
 
-  disabled = false;
+  private disabled:boolean = false;
 
-  onAdd() {
+  public onAdd(): void {
     this.markAsTouched();
     if (!this.disabled && this.priority < 5) {
       this.priority+= this.increment;
@@ -35,7 +35,7 @@ export class ChoosePriorityComponent implements ControlValueAccessor {
     }
   }
 
-  onRemove() {
+  public onRemove(): void {
     this.markAsTouched();
     if (!this.disabled && this.priority > 0) {
       this.priority-= this.increment;
@@ -43,26 +43,26 @@ export class ChoosePriorityComponent implements ControlValueAccessor {
     }
   }
 
-  writeValue(quantity: number) {
+  public writeValue(quantity: number):void {
     this.priority = quantity;
   }
 
-  registerOnChange(onChange: any) {
+  public registerOnChange(onChange: any):void {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  public registerOnTouched(onTouched: any):void {
     this.onTouched = onTouched;
   }
 
-  markAsTouched() {
+  public markAsTouched(): void {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
 
-  setDisabledState(disabled: boolean) {
+  public setDisabledState(disabled: boolean):void {
     this.disabled = disabled;
   }
 }
