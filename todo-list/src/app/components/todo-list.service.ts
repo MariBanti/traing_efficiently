@@ -1,4 +1,5 @@
-import { Task } from './model/todo';
+/**
+ * import { Task } from './model/todo';
 
 export class todoListService {
   public items: Task[] = [];
@@ -56,3 +57,4 @@ export class todoListService {
     });
   }
 }
+  */

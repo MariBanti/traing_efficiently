@@ -6,9 +6,9 @@ import { Task } from "../model/todo";
     standalone: true
 })
 export class TaskSearchPipe implements PipeTransform {
-  transform(tasks: Task[], searchText: string): any {
+  transform(tasks: Task[], searchText: string): Task[]{
       
-    if(!searchText) return tasks
+    if(!searchText) return []
 
     return tasks.filter(task => task.name.toLowerCase().includes(searchText.toLowerCase().trim()))
   }

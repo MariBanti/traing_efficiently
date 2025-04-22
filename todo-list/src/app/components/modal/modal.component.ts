@@ -62,7 +62,7 @@ export class ModalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['task'] && this.taskForm) {
+    if (('task' in changes) && this.taskForm) {
       this.updateForm();
     }
   }
