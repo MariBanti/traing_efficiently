@@ -3,13 +3,13 @@
 
   <button (click)="openModal()">Добавить задачу</button>
 
-  <button (click)="filterByDate()" *ngIf="((tasks | async) ?? []).length > 1">
+  <button (click)="filterByDate()" *ngIf="((tasks$ | async) ?? []).length > 1">
     Отфильтровать по дате (от ближайшей)
   </button>
 
   <div class="todo__list">
     <app-todo-item
-      *ngFor="let task of tasks | async; trackBy: trackById"
+      *ngFor="let task of tasks$ | async; trackBy: trackById"
       [task]="task"
       (showDescription)="showDescription(task.id)"
       (toggleComplete)="toggleComplete(task.id)"
@@ -33,7 +33,7 @@
     >
     
     <div *ngIf="searchText">
-      <div *ngFor="let task of (tasks | async) || [] | search : searchText">
+      <div *ngFor="let task of (tasks$ | async) || [] | search : searchText">
         ============================== <br>
         Задача: {{ task.name}} <br>
         Когда: {{task.deadlineDate | date : "yyyy-MM-dd" }} <br>
@@ -41,7 +41,7 @@
         ==============================
       </div>
       
-      <div *ngIf="((tasks | async) || [] | search : searchText).length === 0">
+      <div *ngIf="((tasks$ | async) || [] | search : searchText).length === 0">
         Задачи не найдены
       </div>
     </div>

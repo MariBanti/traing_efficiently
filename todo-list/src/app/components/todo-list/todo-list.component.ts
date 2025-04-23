@@ -4,18 +4,17 @@ import { CommonModule } from '@angular/common';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ModalComponent } from '../modal/modal.component';
 import { Task } from '../model/todo';
-//import { todoListService } from '../todo-list.service';
 import { TaskSearchPipe } from '../pipes/task-search.pipe';
-import { Store, StoreModule } from '@ngrx/store';
-import { todoListReducer } from '../server/todo-list.reducer';
+import { Store } from '@ngrx/store';
 import { selectAllTasks } from '../server/todo-list.selectors';
 import * as TodoActions from '../server/todo-list.actions'
 import { Observable } from 'rxjs';
+import { TrackByFunction } from '@angular/core';
 
 @Component({
   selector: 'app-todo-list',
   imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent, TaskSearchPipe],
-  //providers: [todoListService],
+  providers: [],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
   standalone: true,
@@ -29,7 +28,7 @@ export class TodoListComponent {
   public isModalOpen:boolean = false;
   public searchText: string = ''
 
-  public tasks: Observable<Task[]> = this.store.select(selectAllTasks)
+  public tasks$: Observable<Task[]> = this.store.select(selectAllTasks)
 
   public deleteTodo(id: string): void {
     this.store.dispatch(TodoActions.deleteItem({id}))
@@ -79,9 +78,10 @@ export class TodoListComponent {
       }))
     }
     this.closeModal();
+    this.tasks$.subscribe(tasks => {
+      console.log('Current tasks:', tasks);
+    });
   }
 
-  public trackById(task: any): number {
-    return task.id;
-  }
+  trackById: TrackByFunction<Task> = (i, item)=>item.id;
 }
