@@ -11,9 +11,11 @@ import * as TodoActions from '../server/todo-list.actions'
 import { Observable } from 'rxjs';
 import { TrackByFunction } from '@angular/core';
 
+import { RxjsInputComponent } from '../rxjs-input/rxjs-input.component';
+
 @Component({
   selector: 'app-todo-list',
-  imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent, TaskSearchPipe],
+  imports: [FormsModule, CommonModule, TodoItemComponent, ModalComponent, TaskSearchPipe, RxjsInputComponent],
   providers: [],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
